@@ -51,11 +51,91 @@ $ mkdir templates
 $ cp plugins/ExamplePlugin/templates/index.twig plugins/SimpleVue/templates/index.twig
 ```
 
+## Do some tweaking to get a nicer view
+
+See all changes in [./docs/changes.diff](./docs/changes.diff)
 
 ## My issue
 
 Compile Vue assets for production:
 ```bash
-
+$ ./console vue:build SimpleVue
+Building SimpleVue...
+ ERROR  Build failed with errors.
+Failed:
+ ERROR  Failed to compile with 3 errors2:43:57 PM
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/index.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/index.ts(9,10)
+      TS2305: Module '"./SimpleVueComponent/SimpleVueComponent.vue"' has no exported member 'default'.
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.adapter.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.adapter.ts(9,40)
+      TS2307: Cannot find module 'CoreHome' or its corresponding type declarations.
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.vue.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.vue.ts(3,22)
+      TS7006: Parameter 'n' implicitly has an 'any' type.
+ ERROR  Failed to compile with 3 errors2:43:58 PM
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/index.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/index.ts(9,10)
+      TS2305: Module '"./SimpleVueComponent/SimpleVueComponent.vue"' has no exported member 'default'.
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.adapter.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.adapter.ts(9,40)
+      TS2307: Cannot find module 'CoreHome' or its corresponding type declarations.
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.vue.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.vue.ts(3,22)
+      TS7006: Parameter 'n' implicitly has an 'any' type.
+ ERROR  Failed to compile with 3 errors2:43:58 PM
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/index.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/index.ts(9,10)
+      TS2305: Module '"./SimpleVueComponent/SimpleVueComponent.vue"' has no exported member 'default'.
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.adapter.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.adapter.ts(9,40)
+      TS2307: Cannot find module 'CoreHome' or its corresponding type declarations.
+ error  in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.vue.ts
+[tsl] ERROR in /usr/local/var/www/matomo/plugins/SimpleVue/vue/src/SimpleVueComponent/SimpleVueComponent.vue.ts(3,22)
+      TS7006: Parameter 'n' implicitly has an 'any' type.
 ```
+
+## How to fix?
+
+### Check our environment:
+```bash
+$ nvm version
+v16.0.0
+```
+
+### What is the RECOMMENDED_NODE_VERSION? 
+```bash
+$ cat ./plugins/CoreVue/Commands/Build.php | grep 'RECOMMENDED_NODE_VERSION.*=' | grep -o "'.*'" | sed "s/'//g" | sed "s/^/v/g"
+v16.0.0
+```
+
+### Build with watch:
+```bash
+./console vue:build SimpleVue --watch
+
+⠧  Building for development as library (commonjs,umd,umd-min)... DONE  Compiled successfully in 4939ms2:49:16 PM
+
+ DONE  Compiled successfully in 4984ms2:49:17 PM
+
+ DONE  Compiled successfully in 5019ms2:49:17 PM
+
+  File                                      Size             Gzipped
+
+  plugins/SimpleVue/vue/dist/SimpleVue.d    50.06 KiB        7.86 KiB
+  evelopment.umd.min.js
+  plugins/SimpleVue/vue/dist/SimpleVue.d    50.06 KiB        7.86 KiB
+  evelopment.umd.js
+  plugins/SimpleVue/vue/dist/SimpleVue.d    49.47 KiB        7.68 KiB
+  evelopment.common.js
+
+  Images and other types of assets omitted.
+
+No issues found.
+No issues found.
+No issues found.
+```
+
+## Success
+
+!["Screenshot-1"](./screenshots/Screenshot-1.png)
 
