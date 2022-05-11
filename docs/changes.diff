@@ -1,0 +1,63 @@
+diff --git a/Controller.php b/Controller.php
+index 46b5655..31dbcc3 100644
+--- a/Controller.php
++++ b/Controller.php
+@@ -5,10 +5,12 @@
+  * @link https://jorgeuos.github.io/
+  * @license https://github.com/jorgeuos/matomo-simple-vue/blob/main/LICENSE
+  */
+-
+ namespace Piwik\Plugins\SimpleVue;
+ 
++use Piwik\Piwik;
+ use Piwik\View;
++use Piwik\Menu\MenuAdmin;
++use Piwik\Menu\MenuTop;
+ 
+ class Controller extends \Piwik\Plugin\Controller
+ {
+@@ -18,7 +20,10 @@ class Controller extends \Piwik\Plugin\Controller
+      */
+     public function index()
+     {
++        Piwik::checkUserHasSomeAdminAccess();
+         return $this->renderTemplate('index', array(
++            'topMenu' => MenuTop::getInstance()->getMenu(),
++            'adminMenu' => MenuAdmin::getInstance()->getMenu(),
+             'answerToLife' => 42
+         ));
+     }
+diff --git a/templates/index.twig b/templates/index.twig
+index 969f2ca..42a9c2a 100644
+--- a/templates/index.twig
++++ b/templates/index.twig
+@@ -5,11 +5,14 @@
+   @license https://github.com/jorgeuos/matomo-simple-vue/blob/main/LICENSE
+ #}
+ 
+-{% extends 'dashboard.twig' %}
++{% extends 'admin.twig' %}
+ 
+ {% block content %}
+     <strong>Hello world!</strong>
+     <br/>
+ 
+     The answer to life is {{ answerToLife }}
++
++    <div simple-vue-component></div>
++    
+ {% endblock %}
+\ No newline at end of file
+diff --git a/vue/src/SimpleVueComponent/SimpleVueComponent.vue b/vue/src/SimpleVueComponent/SimpleVueComponent.vue
+index 9109db2..43ea84d 100644
+--- a/vue/src/SimpleVueComponent/SimpleVueComponent.vue
++++ b/vue/src/SimpleVueComponent/SimpleVueComponent.vue
+@@ -5,7 +5,7 @@
+   @license https://github.com/jorgeuos/matomo-simple-vue/blob/main/LICENSE
+ -->
+ <template>
+-  <div class="example-component">
++  <div class="simple-vue-component">
+     <button v-on:click="decrement">-</button>
+     {{ count }}
+     <button v-on:click="increment">+</button>
