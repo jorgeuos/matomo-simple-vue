@@ -1,0 +1,18 @@
+{
+    "name": "SimpleVue",
+    "description": "Demonstrate Workflow and fix issues.",
+    "version": "0.1.0",
+    "theme": false,
+    "require": {
+        "matomo": ">=4.8.0-stable,<5.0.0-b1"
+    },
+    "authors": [
+        {
+            "name": "Jorguos",
+            "email": "jorge.capow@gmail.com",
+            "homepage": "jorgeuos.github.io"
+        }
+    ],
+    "license": "MIT",
+    "keywords": ["Matomo","Vue"]
+}
