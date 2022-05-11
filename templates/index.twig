@@ -5,11 +5,14 @@
   @license https://github.com/jorgeuos/matomo-simple-vue/blob/main/LICENSE
 #}
 
-{% extends 'dashboard.twig' %}
+{% extends 'admin.twig' %}
 
 {% block content %}
     <strong>Hello world!</strong>
     <br/>
 
     The answer to life is {{ answerToLife }}
+
+    <div simple-vue-component></div>
+    
 {% endblock %}

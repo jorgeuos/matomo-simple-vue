@@ -5,7 +5,7 @@
   @license https://github.com/jorgeuos/matomo-simple-vue/blob/main/LICENSE
 -->
 <template>
-  <div class="example-component">
+  <div class="simple-vue-component">
     <button v-on:click="decrement">-</button>
     {{ count }}
     <button v-on:click="increment">+</button>
